@@ -106,3 +106,144 @@ export const logout = async(req,res)=>{
 
 }
 
+// Get all users 
+
+export const getUsers = async(req,res,next) => {
+    
+        try {
+            const users = await User.find({})
+            return res.json(new sucResponse("Users fetched successfully",200,users))
+            
+        } catch (error) {
+            next(error)
+        }
+}
+
+//ADMIN ROUTES
+
+// Roles are assigend here
+export const assignModerator = async(req,res,next) => {
+
+    // get the username
+    // check whether inputs are empty
+    // check whether user exists
+    // assign the role
+
+    try {
+        const {id} = req.body;
+
+        if(!id.trim()){
+            throw new errResponse("Please provide Id",400)
+        }
+
+        const user = await User.findById(id)
+
+        if(!user){
+            throw new errResponse("User does not exist",400)
+        }
+
+        user.role = "MODERATOR"
+
+        await user.save()
+
+        return res.json(new sucResponse("User role updated successfully",200,user))
+        
+    } catch (error) {
+        next(error)
+    }
+}
+
+// Remove a role
+export const removeModerator = async(req,res,next) => {
+    
+        // get the username
+        // check whether inputs are empty
+        // check whether user exists
+        // remove the role
+    
+        try {
+            const {id} = req.body;
+    
+            if(!id.trim()){
+                throw new errResponse("Please provide Id",400)
+            }
+    
+            const user = await User.findById(id)
+    
+            if(!user){
+                throw new errResponse("User does not exist",400)
+            }
+    
+            user.role = "USER"
+    
+            await user.save()
+    
+            return res.json(new sucResponse("User role updated successfully",200,user))
+            
+        } catch (error) {
+            next(error)
+        }
+}
+
+//Ban User
+export const banUser = async(req,res,next) =>{
+
+    try {
+
+        const {id} = req.body;
+
+        if(!id.trim()){
+            throw new errResponse("Please provide Id",400)
+        }
+
+        const user = await User.findById(id)
+
+        if(!user){
+            throw new errResponse("User does not exist",400)
+        }
+
+        user.ban = true
+
+        await user.save()
+
+        return res.json(new sucResponse("User banned successfully",200,user))
+        
+    } catch (error) {
+        next(error)
+    }
+
+}
+
+// Unban User
+export const unbanUser = async(req,res,next) =>{
+
+    try {
+
+        const {id} = req.body;
+
+        if(!id.trim()){
+            throw new errResponse("Please provide Id",400)
+        }
+
+        const user = await User.findById(id)
+
+        if(!user){
+            throw new errResponse("User does not exist",400)
+        }
+
+        user.ban = false
+
+        await user.save()
+
+        return res.json(new sucResponse("User unbanned successfully",200,user))
+        
+    } catch (error) {
+        next(error)
+    }
+
+}
+
+
+
+
+

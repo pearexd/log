@@ -35,3 +35,17 @@ export const authMiddleware = async (req,res,next)=>{
     }
 
 }
+
+export const adminMiddleware = async (req,res,next)=>{
+    try {
+        
+        if(req.user.role !== "ADMIN"){
+            throw new errResponse("Unauthorized",401)
+        }
+
+        next()
+        
+    } catch (error) {
+        next(error)
+    }
+}
