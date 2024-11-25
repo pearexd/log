@@ -34,7 +34,7 @@ export const createUser = async(req,res,next) => {
 
         await newUser.save()
 
-        return res.json( new sucResponse("User created successfully", 201 , newUser))
+        return res.json( new sucResponse("User created successfully", 201))
         
     } catch (error) {
         next(error)
@@ -85,7 +85,7 @@ export const loginUser = async(req,res,next) => {
         .cookie("accessToken",token,options)
         .status(200)
         .json(
-            new sucResponse(200,"User Login Success",{loggedInUserDetails,token})
+            new sucResponse(true,200,"User Login Success",{loggedInUserDetails,token})
         )
 
         

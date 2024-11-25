@@ -23,8 +23,13 @@ export const authMiddleware = async (req,res,next)=>{
 
           const user = await User.findById(id).select("+role")
 
+
           if(!user){
             throw new errResponse("User not found",400)
+          }
+
+          if(user.ban == true){
+            throw new errResponse("Sorry you cannot access",400)
           }
 
           req.user = user
