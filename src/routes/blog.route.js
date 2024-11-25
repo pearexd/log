@@ -8,6 +8,6 @@ const router = Router()
 //Private Endpoints
 router.route('/createBlog').post(authMiddleware,createBlog)
 router.route('/deleteBlog').post(authMiddleware,deleteBlog)
-router.route('/getBlog').get(authMiddleware,getBlogs)
-
+router.route('/getBlog'   ).get (authMiddleware,getBlogs  ) 
+ 
 export default router

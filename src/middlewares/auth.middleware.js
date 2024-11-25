@@ -2,6 +2,7 @@ import { User } from "../models/user.model.js"
 import errResponse from "../utils/errResponse.js"
 import jwt from "jsonwebtoken"
 
+// Middle to check if user has the token 
 export const authMiddleware = async (req,res,next)=>{
 
     try {
@@ -36,6 +37,7 @@ export const authMiddleware = async (req,res,next)=>{
 
 }
 
+//Admin Middleware check if the current user is admin if not return
 export const adminMiddleware = async (req,res,next)=>{
     try {
         

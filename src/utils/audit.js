@@ -1,5 +1,6 @@
 import {Audit} from "../models/audit.model.js"
 
+// Create Log in database
 export const createLog = async(action,user,target)=>{
 
     try {

@@ -96,8 +96,6 @@ export const loginUser = async(req,res,next) => {
 
 // Logout a user
 export const logout = async(req,res)=>{
-
-    console.log(req.user)
     
     return res
     .status(200)
@@ -118,6 +116,8 @@ export const getUsers = async(req,res,next) => {
             next(error)
         }
 }
+
+
 
 //ADMIN ROUTES
 
