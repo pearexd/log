@@ -3,6 +3,7 @@ import cookieParser from "cookie-parser"
 import cors from "cors"
 import dotenv from "dotenv"
 import userRouter from "./routes/user.route.js"
+import blogRouter from "./routes/blog.route.js"
 
 dotenv.config()
 
@@ -17,6 +18,7 @@ app.use(cors())
 // Routes : any request that starts with /api/v1/{anything} will be redirected to function next to it
 
 app.use('/api/v1/user',userRouter)
+app.use('/api/v1/blog',blogRouter)
 
 
 // Error Handler

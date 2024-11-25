@@ -105,3 +105,4 @@ export const logout = async(req,res)=>{
     .json(new sucResponse(200,"User logged out successfully")) 
 
 }
+

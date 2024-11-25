@@ -7,9 +7,10 @@ const router = Router()
 
 // Public Endpoints
 
-
 router.route('/signup').post(createUser)
 router.route('/login').post(loginUser)
+
+// Private Endpoints
 router.route('/logout').post(authMiddleware,logout)
 
 
