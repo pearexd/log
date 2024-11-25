@@ -10,7 +10,7 @@ const router = Router()
 // Public Endpoints
 router.route('/signup').post(createUser)
 router.route('/login' ).post(loginUser )
-router.route('/users' ).post(getUsers  )
+router.route('/users' ).get(getUsers  )
 
 
 // Private Endpoints

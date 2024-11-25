@@ -110,7 +110,7 @@ export const getUsers = async(req,res,next) => {
     
         try {
             const users = await User.find({})
-            return res.json(new sucResponse("Users fetched successfully",200,users))
+            return res.json(new sucResponse(true,200,"Users fetched successfully",users))
             
         } catch (error) {
             next(error)
