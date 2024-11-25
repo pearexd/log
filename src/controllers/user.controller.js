@@ -1,6 +1,6 @@
 import errResponse from "../utils/errResponse.js";
 import sucResponse from "../utils/sucResponse.js"
-
+import {createLog} from "../utils/audit.js"
 import { User } from "../models/user.model.js";
 
 
@@ -144,6 +144,8 @@ export const assignModerator = async(req,res,next) => {
 
         user.role = "MODERATOR"
 
+        await createLog("MODERATOR ADDED",req.user.username,user.username)
+
         await user.save()
 
         return res.json(new sucResponse("User role updated successfully",200,user))
@@ -175,6 +177,8 @@ export const removeModerator = async(req,res,next) => {
             }
     
             user.role = "USER"
+
+            await createLog("MODERATOR REMOVED",req.user.username,user.username)
     
             await user.save()
     
@@ -204,6 +208,8 @@ export const banUser = async(req,res,next) =>{
 
         user.ban = true
 
+        await createLog("USER BANNED",req.user.username,user.username)
+
         await user.save()
 
         return res.json(new sucResponse("User banned successfully",200,user))
@@ -232,6 +238,8 @@ export const unbanUser = async(req,res,next) =>{
         }
 
         user.ban = false
+
+        await createLog("USER UNBANNED",req.user.username,user.username)
 
         await user.save()
 
