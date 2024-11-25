@@ -1,5 +1,6 @@
 import mongoose from "mongoose"
 import jwt from "jsonwebtoken"
+import bcrypt from "bcrypt"
 
 
 // User Schema
@@ -12,6 +13,7 @@ const userSchema = new mongoose.Schema({
     },
     password: {
         type: String,
+        select: false,
         required: true,
     },
     role: {
