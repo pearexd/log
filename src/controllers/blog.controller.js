@@ -29,7 +29,7 @@ export const createBlog = async(req,res,next)=>{
 }
 
 // DELETE BLOG 
-// RABC (Role Based Access Control) is implemented here
+// RBAC (Role Based Access Control) is implemented here
 export const deleteBlog = async(req,res,next)=>{
 
     // Check if blog exist
@@ -67,7 +67,6 @@ export const deleteBlog = async(req,res,next)=>{
 }
 
 // GET BLOGS
-
 export const getBlogs = async(req,res,next)=>{
 
     try {
