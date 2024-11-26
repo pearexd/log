@@ -34,7 +34,7 @@ export const createUser = async(req,res,next) => {
 
         await newUser.save()
 
-        return res.json( new sucResponse("User created successfully", 201))
+        return res.json( new sucResponse(true,201,"User created successfully"))
         
     } catch (error) {
         next(error)
@@ -100,12 +100,11 @@ export const logout = async(req,res)=>{
     return res
     .status(200)
     .clearCookie("accessToken")
-    .json(new sucResponse(200,"User logged out successfully")) 
+    .json(new sucResponse(true,200,"User logged out successfully")) 
 
 }
 
 // Get all users 
-
 export const getUsers = async(req,res,next) => {
     
         try {
@@ -120,6 +119,8 @@ export const getUsers = async(req,res,next) => {
 
 
 //ADMIN ROUTES
+
+
 
 // Roles are assigend here
 export const assignModerator = async(req,res,next) => {
@@ -150,7 +151,7 @@ export const assignModerator = async(req,res,next) => {
 
         await user.save()
 
-        return res.json(new sucResponse("User role updated successfully",200,user))
+        return res.json(new sucResponse(true,200,"User role updated successfully",user))
         
     } catch (error) {
         next(error)
@@ -184,7 +185,7 @@ export const removeModerator = async(req,res,next) => {
     
             await user.save()
     
-            return res.json(new sucResponse("User role updated successfully",200,user))
+            return res.json(new sucResponse(true,200,"User role updated successfully",user))
             
         } catch (error) {
             next(error)
@@ -214,7 +215,7 @@ export const banUser = async(req,res,next) =>{
 
         await user.save()
 
-        return res.json(new sucResponse("User banned successfully",200,user))
+        return res.json(new sucResponse(true,200,"User banned successfully",user))
         
     } catch (error) {
         next(error)
@@ -245,7 +246,7 @@ export const unbanUser = async(req,res,next) =>{
 
         await user.save()
 
-        return res.json(new sucResponse("User unbanned successfully",200,user))
+        return res.json(new sucResponse(true,200,"User unbanned successfully",user))
         
     } catch (error) {
         next(error)

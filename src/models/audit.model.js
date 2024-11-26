@@ -1,5 +1,6 @@
 import mongoose from "mongoose"
 
+// Audit Schema
 const auditSchema = new mongoose.Schema({
     action: {
         type: String,

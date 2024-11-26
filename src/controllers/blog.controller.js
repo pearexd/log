@@ -60,7 +60,7 @@ export const deleteBlog = async(req,res,next)=>{
             throw new errResponse('You are not authorized to delete this blog',403)
         }
 
-        return res.json(new sucResponse('Blog deleted successfully'))
+        return res.json(new sucResponse(true,200,'Blog deleted successfully'))
 
           
     } catch (error) {

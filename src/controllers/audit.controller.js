@@ -2,6 +2,7 @@ import {Audit} from "../models/audit.model.js"
 import errResponse from "../utils/errResponse.js"
 import sucResponse from "../utils/sucResponse.js"
 
+// Get all audit logs
 export const getAuditLogs = async (req,res,next) => {
     try {
         
