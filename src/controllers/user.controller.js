@@ -130,9 +130,11 @@ export const assignModerator = async(req,res,next) => {
     // assign the role
 
     try {
-        const {id} = req.body;
 
-        if(!id.trim()){
+
+        const {id}= req.body;
+
+        if(!id){
             throw new errResponse("Please provide Id",400)
         }
 

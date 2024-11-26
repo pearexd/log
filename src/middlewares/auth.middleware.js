@@ -7,9 +7,16 @@ export const authMiddleware = async (req,res,next)=>{
 
     try {
         
-          const {accessToken}    = req.cookies
+          let accessToken 
+
+          if(req.cookies?.accessToken){
+             accessToken = req.cookies?.accessToken
+          }else{
+            accessToken = req.header("Authorization")?.split(" ")[1]
+          }
+
           const JWT_SECRET = process.env.JWT_SECRET 
-         //  const token = req.header("Authorization").split[" "] req.header("Authorization") gives single header req.headers give all headers 
+ 
 
           if(!accessToken){
             throw new errResponse("Unauthenticated",400)
