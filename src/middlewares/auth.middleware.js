@@ -14,10 +14,9 @@ export const authMiddleware = async (req,res,next)=>{
           }else{
             accessToken = req.header("Authorization")?.split(" ")[1]
           }
-
+          
           const JWT_SECRET = process.env.JWT_SECRET 
- 
-
+          
           if(!accessToken){
             throw new errResponse("Unauthenticated",400)
           }

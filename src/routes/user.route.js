@@ -14,7 +14,7 @@ router.route('/users' ).get(getUsers  )
 
 
 // Private Endpoints
-router.route('/logout').post(authMiddleware,logout)
+router.route('/logout').get(authMiddleware,logout)
 
 
 // ADMIN Endpoints
