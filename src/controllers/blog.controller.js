@@ -22,7 +22,7 @@ export const createBlog = async(req,res,next)=>{
 
         await blog.save()
 
-        return res.json(new sucResponse('Blog added successfully',blog))
+        return res.json(new sucResponse(true,200,'Blog added successfully',blog))
        
     } catch (error) {
         next(error)
@@ -79,7 +79,7 @@ export const getBlogs = async(req,res,next)=>{
             throw new errResponse('No blogs found',404)
         }
 
-        return res.json(new sucResponse('Blogs fetched successfully',blogs))
+        return res.json(new sucResponse(true,200,'Blogs fetched successfully',blogs))
 
         
     } catch (error) {
