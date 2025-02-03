@@ -4,6 +4,25 @@ import sucResponse from '../utils/sucResponse.js'
 import { createLog } from '../utils/audit.js'
 
 
+
+
+// Convert date and time to readable format
+
+const convertDate = (blogs)=>{
+
+    return blogs.map(blog=>{
+        const readableDate = blog.createdAt.toDateString()
+        const readableTime = blog.createdAt.toLocaleTimeString()
+        return {
+            ...blog._doc,
+            readableDate,
+            readableTime
+        }
+    })
+}
+
+
+
 // ADD BLOG
 export const createBlog = async(req,res,next)=>{
 
@@ -68,18 +87,21 @@ export const deleteBlog = async(req,res,next)=>{
     }
 }
 
+
 // GET BLOGS
 export const getBlogs = async(req,res,next)=>{
 
     try {
 
-        const blogs = await Blog.find()
+        const blogs = await Blog.find().select("-content")
 
         if(!blogs){
             throw new errResponse('No blogs found',404)
         }
 
-        return res.json(new sucResponse(true,200,'Blogs fetched successfully',blogs))
+        const blogsWithReadableData = convertDate(blogs)
+
+        return res.json(new sucResponse(true,200,'Blogs fetched successfully',blogsWithReadableData))
 
         
     } catch (error) {

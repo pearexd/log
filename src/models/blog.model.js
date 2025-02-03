@@ -11,11 +11,9 @@ const blogSchema = new mongoose.Schema({
     content: {
         type: String,
         required: true,
-    },
-    user: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
     }
+},{
+    timestamps:true
 })
 
 export const Blog = mongoose.model('Blog', blogSchema);
