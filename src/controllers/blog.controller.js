@@ -8,7 +8,7 @@ import { createLog } from '../utils/audit.js'
 
 // Convert date and time to readable format
 
-const convertDate = (blogs)=>{
+const convertDateAndTimeReadable = (blogs)=>{
 
     return blogs.map(blog=>{
         const readableDate = blog.createdAt.toDateString()
@@ -99,9 +99,36 @@ export const getBlogs = async(req,res,next)=>{
             throw new errResponse('No blogs found',404)
         }
 
-        const blogsWithReadableData = convertDate(blogs)
+        const multipleBlogsWithReadableDateAndTime = convertDateAndTimeReadable(blogs)
 
-        return res.json(new sucResponse(true,200,'Blogs fetched successfully',blogsWithReadableData))
+        return res.json(new sucResponse(true,200,'Blogs fetched successfully',multipleBlogsWithReadableDateAndTime))
+
+        
+    } catch (error) {
+        next(error)
+    }
+
+}
+
+export const getBlog = async(req,res,next)=>{
+
+    try {
+
+        const {id} = req.params
+
+        if(!id.trim()){
+            throw new errResponse('Blog ID is required',400)
+        }
+
+        const blog = await Blog.findById(id)
+
+        if(!blog){
+            throw new errResponse('Blog not found',404)
+        }
+
+        const singleBlogWithReadableDateAndTime = convertDateAndTimeReadable([blog])
+
+        return res.json(new sucResponse(true,200,'Blog fetched successfully',singleBlogWithReadableDateAndTime[0]))
 
         
     } catch (error) {

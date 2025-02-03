@@ -1,5 +1,5 @@
 import {Router} from 'express'
-import { createBlog, deleteBlog, getBlogs } from '../controllers/blog.controller.js'
+import { createBlog, deleteBlog, getBlog, getBlogs } from '../controllers/blog.controller.js'
 import {authMiddleware} from "../middlewares/auth.middleware.js"
 
 
@@ -11,5 +11,6 @@ router.route('/deleteBlog').post(authMiddleware,deleteBlog)
 
 //Public Endpoints
 router.route('/getBlogs'   ).get (getBlogs  ) 
+router.route('/getBlog/:id').get (getBlog  )
  
 export default router
