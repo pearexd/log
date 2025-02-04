@@ -71,7 +71,7 @@ export const deleteBlog = async(req,res,next)=>{
             throw new errResponse('Blog not found',404)
         }
 
-        if(blog.user.toString() == req.user._id.toString() || req.user.role == 'ADMIN'|| req.user.role == 'MODERATOR'){   
+        if(req.user.role == 'ADMIN'|| req.user.role == 'MODERATOR'){   
             await Blog.findOneAndDelete({_id:blogId})
             await createLog("BLOG DELETED",req.user.username,blogId)
         }        
