@@ -12,7 +12,7 @@ const convertDateAndTimeReadable = (blogs)=>{
 
     return blogs.map(blog=>{
         const readableDate = blog.createdAt.toDateString()
-        const readableTime = blog.createdAt.toLocaleTimeString()
+        const readableTime = blog.createdAt.toLocaleTimeString("en-US",{timeZone:"Asia/Kolkata"})
         return {
             ...blog._doc,
             readableDate,
