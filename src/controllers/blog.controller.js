@@ -48,6 +48,45 @@ export const createBlog = async(req,res,next)=>{
     }
 }
 
+
+export const createBlogV2 = async(req,res,next) =>{
+    const body = req.body
+    const file = req.files
+
+    const output = {}
+
+
+    Object.keys(body).map((key)=>{
+        try {
+            output[key] = JSON.parse(body[key])
+        } catch (error) {
+            output[key] = body[key]
+        }
+    })
+
+    //Upload Images
+
+
+    const {title} = body;
+    const content = []
+
+    Object.keys(output).map((key)=>{
+        const obj = {
+            order : key ,
+            data : output[key].data ? output[key].data : output[key],
+            inputType : output[key].inputType ? output[key].inputType : 'image' ,
+            style : output[key].style,
+            url: ''
+        }
+        content.push({...obj})
+    })
+
+    console.log(content)
+
+
+}
+
+
 // DELETE BLOG 
 // RBAC (Role Based Access Control) is implemented here
 export const deleteBlog = async(req,res,next)=>{
@@ -86,7 +125,6 @@ export const deleteBlog = async(req,res,next)=>{
         next(error)
     }
 }
-
 
 // GET BLOGS
 export const getBlogs = async(req,res,next)=>{
