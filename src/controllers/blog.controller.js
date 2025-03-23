@@ -65,7 +65,7 @@ export const createBlogV2 = async(req,res,next) =>{
     })
 
     //Upload Images
-
+    // Get URL match key == field name then add 
 
     const {title} = body;
     const content = []
