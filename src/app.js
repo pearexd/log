@@ -5,6 +5,9 @@ import dotenv from "dotenv"
 import userRouter from "./routes/user.route.js"
 import blogRouter from "./routes/blog.route.js"
 import rateLimit from "express-rate-limit"
+import { upload } from "./middlewares/multer.middleware.js"
+import { createBlogV2 } from "./controllers/blog.controller.js"
+import { authMiddleware } from "./middlewares/auth.middleware.js"
 
 dotenv.config()
 
@@ -31,6 +34,8 @@ app.use(cors({
 // Routes : any request that starts with /api/v1/{anything} will be redirected to function next to it
 app.use('/api/v1/user',userRouter)
 app.use('/api/v1/blog',blogRouter)
+
+app.post('/api/v2/blog/createBlog',authMiddleware,upload.any(),createBlogV2)
 
 
 // Error Handler

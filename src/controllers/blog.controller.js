@@ -2,6 +2,7 @@ import errResponse from '../utils/errResponse.js'
 import {Blog} from "../models/blog.model.js"
 import sucResponse from '../utils/sucResponse.js'
 import { createLog } from '../utils/audit.js'
+import { uploadImageToAwsS3 } from '../utils/image.uploader.js'
 
 
 
@@ -35,8 +36,7 @@ export const createBlog = async(req,res,next)=>{
 
         const blog = await Blog.create({
             title,
-            content,
-            user:req.user._id
+            content
         })
 
         await blog.save()
@@ -50,38 +50,65 @@ export const createBlog = async(req,res,next)=>{
 
 
 export const createBlogV2 = async(req,res,next) =>{
-    const body = req.body
-    const file = req.files
 
-    const output = {}
-
-
-    Object.keys(body).map((key)=>{
-        try {
-            output[key] = JSON.parse(body[key])
-        } catch (error) {
-            output[key] = body[key]
-        }
-    })
-
-    //Upload Images
-    // Get URL match key == field name then add 
-
-    const {title} = body;
-    const content = []
-
-    Object.keys(output).map((key)=>{
-        const obj = {
-            order : key ,
-            data : output[key].data ? output[key].data : output[key],
-            inputType : output[key].inputType ? output[key].inputType : 'image' ,
-            style : output[key].style,
-            url: ''
-        }
-        content.push({...obj})
-    })
-
-    console.log(content)
+    try {
+        const body = req.body
+        const files = req.files
+        const {title} = body;
+        
+        delete body.title
+    
+        const output = {}
+     
+        Object.keys(body).map((key)=>{
+            try {
+                output[key] = JSON.parse(body[key])
+            } catch (error) {
+                output[key] = body[key]
+            }
+        })
+    
+        const imageURLs = []
+        const content   = []
+    
+        await Promise.all(files.map(async (file)=>{ 
+            const obj = await uploadImageToAwsS3(file)
+            imageURLs.push(obj)
+        }))
+    
+        
+        Object.keys(output).map((key)=>{
+            const obj = {
+                order : key ,
+                data : output[key].data ? output[key].data : output[key],
+                inputType : output[key].inputType ? output[key].inputType : 'image' ,
+                style : output[key].style,
+                url: ''
+            }
+            content.push({...obj})
+        })
+    
+    
+        content.map((obj)=>{
+            imageURLs.map((imageObject)=>{
+                if (obj.order == imageObject.order){
+                    obj.url = imageObject.url
+                }    
+            })
+        })
+    
+        const blog = await Blog.create({
+            title,
+            content
+        })
+    
+        await blog.save()
+    
+        return res.json(new sucResponse(true,200,'Blog added successfully',blog))
+        
+    } catch (error) {
+        next(error)   
+    }
 
 
 }
@@ -153,6 +180,7 @@ export const getBlog = async(req,res,next)=>{
     try {
 
         const {id} = req.params
+        let blogVersioned = {}
 
         if(!id.trim()){
             throw new errResponse('Blog ID is required',400)

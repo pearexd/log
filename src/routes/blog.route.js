@@ -7,9 +7,10 @@ import { upload } from '../middlewares/multer.middleware.js'
 const router = Router()
 
 //Private Endpoints
-router.route('/createBlog').post 
+router.route('/createBlog').post(authMiddleware,createBlog)
 router.route('/deleteBlog').post(authMiddleware,deleteBlog)
-router.route('/v2/createBlog').post(upload.any(),createBlogV2)
+
+
 
 //Public Endpoints
 router.route('/getBlogs'   ).get (getBlogs  ) 
